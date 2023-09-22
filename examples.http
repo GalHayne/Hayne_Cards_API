@@ -1,5 +1,5 @@
 @local=http://localhost:3000
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBkNzgxNDVhNzI2ZGQxOGE4M2FiODYiLCJiaXoiOmZhbHNlLCJpc0FkbWluIjpmYWxzZSwiZW1haWwiOiJnYWwzQGdtYWlsLmNvbSIsImlhdCI6MTY5NTM4Mjc5M30.9YbxJ66NpfKQjUILyYd4d391D-jZSbyEVI4EjrVm7BA
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBkNmU2YjIyYjU2NjM1MzNmZmFjMzIiLCJiaXoiOmZhbHNlLCJpc0FkbWluIjp0cnVlLCJlbWFpbCI6Inlvc3NpQGdtYWlsLmNvbSIsImlhdCI6MTY5NTM5NDUyMH0.Rb9uURfnXE6lfg6WJxPPvz3i2J8SR_yHESv_FR94nkQ
 
 ////////////////////////////User API//////////////////////////////////////////////
 ### Create New User
@@ -12,7 +12,7 @@ Content-Type: application/json
       "last" : "tomer"
     },
     "phone": "052486485",
-    "email": "gal33@gmail.com",
+    "email": "yossi@gmail.com",
     "password": "!QAZ2wsx",
     "biz": "true",
     "isAdmin": "true",
@@ -24,8 +24,8 @@ POST {{local}}/users/login
 Content-Type: application/json
 
 {
-  "email": "gal3@gmail.com",
-  "password": "!QAZ2ws"
+  "email": "yossi@gmail.com",
+  "password": "!QAZ2wsx"
 }
 
 ### get all users
@@ -50,7 +50,7 @@ Content-Type: application/json
 }
 
 ### Toggle Biz user by id
-PATCH  {{local}}/users/650d6cfd3e6663842dcdc
+PATCH  {{local}}/users/650d6e6b225663533ffac32
 x-auth-token: {{token}}
 
 ### Delete user by id
@@ -67,12 +67,8 @@ GET {{local}}/cards
 GET {{local}}/cards/my-cards
 x-auth-token: {{token}}
 
-{
-  "user_id": "650c290a04cffe923649844f"
-}
-
 ### Get card by ID
-GET {{local}}/cards/650c24169b2fa95ffd267216
+GET {{local}}/cards/650d982610645d2a5df12180
 
 
 ### Create New Card
@@ -81,8 +77,8 @@ Content-Type: application/json
 x-auth-token: {{token}}
 
 {
-  "title": "tomer",
-  "subtitle": "hayne",
+  "title": "ofir",
+  "subtitle": "matan",
   "description": "web deveoloper",
   "phone": "0505875037",
   "email": "hadar@gmail.com",
@@ -91,31 +87,31 @@ x-auth-token: {{token}}
     "city": "Rehovot",
     "street": "Max Shein",
     "houseNumber": "23",
-    "zip": "5"
+    "zip": "17"
   }
 }
 
 ### Delete Card
-DELETE   {{local}}/cards/650c3a480bfcac7c1e7d3a70
+DELETE   {{local}}/cards/650d982610645d2a5df12193
 Content-Type: application/json
 x-auth-token: {{token}}
 
 ### Like Card
-PATCH  {{local}}/cards/650c184d12c8c2859fbefe67
+PATCH  {{local}}/cards/650d982610645d2a5df12160
 Content-Type: application/json
 x-auth-token: {{token}}
 
 ### Update Card
-PUT {{local}}/cards/650c4eb5fa4ea191acdd0fd1
+PUT {{local}}/cards/650d97a617f29d069391b57c
 Content-Type: application/json
 x-auth-token: {{token}}
 
 {
   "title": "gal",
-  "subtitle": "hayne",
+  "subtitle": "hayne2",
   "description": "full stack development",
   "phone": "0505875037",
-  "email": "gal@gmail.com",
+  "email": "galhayne@gmail.com",
   "address": {
     "country": "IL",
     "city": "Rehovot",
