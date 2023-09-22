@@ -5,17 +5,17 @@ const _ = require("lodash");
 const auth = require("../middleware/auth");
 const {logToFile} = require("../utility/logFiles/logToFile")
 
-const {
-  checkIsAdmin,
-  currentUser,
-  onlyCurrUser,
-} = require("../middleware/permissions");
+const { checkIsAdmin,currentUser,onlyCurrUser} = require("../middleware/permissions");
 const { checkIfUserBlock } = require("../utility/blockUser/checkIfUserBlock")
 const { diff_hours } = require("../utility/blockUser/diff_hours");
 const { unBlockTheuser } = require("../utility/blockUser/unBlockTheUser");
 const { incWrongAttempts } = require("../utility/blockUser/incWrongAttempts");
+const { getRequestFailed } = require("../utility/failedMsg/requestFailed");
+const {getNotFoundMsg} = require("../utility/failedMsg/foundObjectFailed");
+const {duplicateKeyMsg} = require("../utility/failedMsg/duplicateKey");
+const {getPermissionsMsg} = require("../utility/failedMsg/permissionsMsg");
 
-
+const notFoundUser = getNotFoundMsg("user");
 const BLOCK_TIME = 24;
 
 router.post("/", async (req, res) => {
@@ -28,10 +28,9 @@ router.post("/", async (req, res) => {
 
     if (req?.body?.bizNumber) {
       let user = await User.findOne({ bizNumber: req?.body?.bizNumber });
-      const errMsg = "The biz number is exist please try another number";
       if (user) {
-        logToFile("ERROR", req.method, req.originalUrl, errMsg);
-        return res.status(500).json({ error: errMsg });
+        logToFile("ERROR", req.method, req.originalUrl, duplicateKeyMsg("biz number"));
+        return res.status(500).json({ error: duplicateKeyMsg("biz number") });
       }
     }
 
@@ -101,11 +100,14 @@ router.get("/", auth, checkIsAdmin, async (req, res) => {
 router.get("/:id", auth, currentUser, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
+    if (!user){
+      logToFile("ERROR", req.method, req.originalUrl, notFoundUser);
+      return res.status(404).send(notFoundUser);
+    }
     return res.status(201).json(user);
   } catch (error) {
-    const userErrorMsg = "No such user exists in the system";
-    logToFile("ERROR", req.method, req.originalUrl, userErrorMsg);
-    return res.status(404).send(userErrorMsg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("update","user"));
+    return res.status(404).send( getRequestFailed("update","user"));
   }
 });
 
@@ -113,9 +115,8 @@ router.put("/:id", auth, onlyCurrUser, async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user && user?.id !== req?.params?.id) {
-      const dupMailMsg = "The email is exist please try another email";
-      logToFile("ERROR", req.method, req.originalUrl, dupMailMsg);
-      return res.status(500).json({ error: dupMailMsg });
+      logToFile("ERROR", req.method, req.originalUrl, duplicateKeyMsg("email"));
+      return res.status(500).json({ error: duplicateKeyMsg("email") });
     }
     const { error } = validateUsers(req.body);
     if (error) {
@@ -125,16 +126,14 @@ router.put("/:id", auth, onlyCurrUser, async (req, res) => {
 
     if (req?.body?.bizNumber) {
       if (!req?.user?.isAdmin) {
-        const changeBizMsg = "Only admin can change biz number";
-        logToFile("ERROR", req.method, req.originalUrl, changeBizMsg);
+        logToFile("ERROR", req.method, req.originalUrl, getPermissionsMsg("change biz number"));
         return res.status(500).json({ error: changeBizMsg });
       }
 
       let user = await User.findOne({ bizNumber: req.body.bizNumber });
       if (user && user?.id !== req?.params?.id) {
-        const bizExistMsg = "The biz number is exist please try another number";
-        logToFile("ERROR", req.method, req.originalUrl, bizExistMsg);
-        return res.status(500).json({ error: bizExistMsg });
+        logToFile("ERROR", req.method, req.originalUrl, duplicateKeyMsg("biz number"));
+        return res.status(500).json({ error: duplicateKeyMsg("biz number") });
       }
     }
 
@@ -142,50 +141,44 @@ router.put("/:id", auth, onlyCurrUser, async (req, res) => {
       new: true,
     });
     if (!updatedUser) {
-      const noUserMsg = "User not found";
-      logToFile("ERROR", req.method, req.originalUrl, noUserMsg);
-      return res.status(404).json({ error: noUserMsg });
+      logToFile("ERROR", req.method, req.originalUrl, notFoundUser);
+      return res.status(404).json({ error: notFoundUser });
     }
     updatedUser.password = await bcrypt.hash(updatedUser.password, 12);
     const result = await updatedUser.save();
     return res.status(201).json(result);
   } catch (err) {
-    const ErrorMSg = "Update user request fail";
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("update","user"));
   }
 });
 
 router.patch("/:id", auth, onlyCurrUser, async (req, res) => {
-  const ErrorMSg = "Toogle biz this user request fail";
-  const foundUserMsg = "No such user exists in the system";
   try {
     let user = await User.findOne({ _id: req.params.id });
     if (!user) {
-      logToFile("ERROR", req.method, req.originalUrl, foundUserMsg);
-      return res.status(404).send(foundUserMsg);
+      logToFile("ERROR", req.method, req.originalUrl, notFoundUser);
+      return res.status(404).send(notFoundUser);
     }
     user.biz = !user.biz;
     user.save();
     return res.status(201).send(user);
   } catch (err) {
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-    return res.status(404).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("toggle biz","user"));
+    return res.status(404).send(getRequestFailed("toggle biz","user"));
   }
 });
 
 router.delete("/:id", auth, currentUser, async (req, res) => {
-  const ErrorMSg = "Delete this user request fail";
-  const foundUserMsg = "No such user exists in the system";
   try {
     const user = await User.findOneAndRemove({ _id: req.params.id });
     if (!user) {
-      logToFile("ERROR", req.method, req.originalUrl, foundUserMsg);
-      return res.status(404).send(foundUserMsg);
+      logToFile("ERROR", req.method, req.originalUrl, notFoundUser);
+      return res.status(404).send(notFoundUser);
     }
     return res.status(201).send("The User deleted successfully");
   } catch (error) {
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-    return res.status(404).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("delete","user"));
+    return res.status(404).send(getRequestFailed("delete","user"));
   }
 });
 

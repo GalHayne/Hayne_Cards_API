@@ -3,62 +3,60 @@ const auth = require("../middleware/auth");
 const { validateCard, Card, generateBizNumber } = require("../models/card");
 const { isBiz } = require("../middleware/permissions");
 const {logToFile} = require("../utility/logFiles/logToFile")
+const { getRequestFailed } = require("../utility/failedMsg/requestFailed");
+const {getNotFoundMsg} = require("../utility/failedMsg/foundObjectFailed");
+const {getPermissionsMsg} = require("../utility/failedMsg/permissionsMsg");
+
+const foundCardError = getNotFoundMsg("cards");
 
 router.get("/", async (req, res) => {
-  const ErrorMSg = "get cards request fail";
   try{
     const cards = await Card.find({});
     return res.send(cards);
   }catch(error){
 
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-    res.status(400).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("get","cards"));
+    res.status(400).send(getRequestFailed("get","cards"));
   }
 });
 
 router.get("/my-cards", auth, async (req, res) => {
-  const ErrorMSg = "get cards request fail";
   try {
     const cards = await Card.find({ user_id: req.user._id });
     return res.json(cards);
   } catch (error) {
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-    res.status(400).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("get","my cards"));
+    res.status(400).send(getRequestFailed("get","my cards"));
   }
 });
 
 router.delete("/:id", auth, async (req, res) => {
-  const cardIDErrorMsg = "The ID of this card not exist";
-  const permissionDeleteMsg = "You dont have permissions";
-  const ErrorMSg = "Delete this card request fail";
   try {
     let card = await Card.findOne({ _id: req.params.id });
     if (!card) {
-      logToFile("ERROR", req.method, req.originalUrl, cardIDErrorMsg);
-      return res.status(401).send(cardIDErrorMsg);
+      logToFile("ERROR", req.method, req.originalUrl, foundCardError);
+      return res.status(401).send(foundCardError);
     }
     if (JSON.stringify(req?.user?._id) !== JSON.stringify(card?.user_id)) {
       if (!req?.user?.isAdmin) {
-        logToFile("ERROR", req.method, req.originalUrl, permissionDeleteMsg);
-        return res.status(401).send(permissionDeleteMsg);
+        logToFile("ERROR", req.method, req.originalUrl, getPermissionsMsg("delete card"));
+        return res.status(401).send(getPermissionsMsg("delete card"));
       }
     }
     card = await Card.findOneAndRemove({ _id: req.params.id });
     if (card) {
       return res.status(201).send("The card has been successfully deleted");
     } else {
-      logToFile("ERROR", req.method, req.originalUrl, cardIDErrorMsg);
-      return res.status(401).send(cardIDErrorMsg);
+      logToFile("ERROR", req.method, req.originalUrl, foundCardError);
+      return res.status(401).send(foundCardError);
     }
   } catch (error) {
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-    return res.status(401).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("delete","card"));
+    return res.status(401).send(getRequestFailed("delete","card"));
   }
 });
 
 router.get("/:id", async (req, res) => {
-  const foundCardError = "The card with the given ID was not found";
-  const ErrorMSg = "Get this card request fail";
   try {
     const card = await Card.findOne({ _id: req?.params?.id });
     if (!card){
@@ -67,8 +65,8 @@ router.get("/:id", async (req, res) => {
     }
     res.status(201).send(card);
   } catch (error) {
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-    return res.status(401).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("get this", "card"));
+    return res.status(401).send(getRequestFailed("get this", "card"));
   }
 });
 
@@ -95,8 +93,6 @@ router.post("/", auth, isBiz, async (req, res) => {
 
 router.patch("/:id", auth, async (req, res) => {
   const duplicateLike = "You already liked this card";
-  const ErrorMSg = "Like this card request fail";
-  const foundCardError = "The card with the given ID was not found";
   try {
     const foundCard = await Card.findOne({
       _id: req.params.id,
@@ -117,23 +113,21 @@ router.patch("/:id", auth, async (req, res) => {
     }
     res.json(card);
   } catch (err) {
-    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-    res.status(400).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, getRequestFailed("like this","card"));
+    res.status(400).send( getRequestFailed("like this","card"));
     return;
   }
 });
 
 router.put("/:id", auth, async (req, res) => {
-  const cardNotFoundMsg = "The ID of this card not exist";
-  const permissionDeleteMsg = "You dont have permissions to edit this card";
   try {
     const card = await Card.findOne({ _id: req.params.id });
     if (!card) {
-      return res.status(201).send(cardNotFoundMsg);
+      return res.status(201).send(foundCardError);
     }
     if (JSON.stringify(req?.user?._id) !== JSON.stringify(card?.user_id)) {
-      logToFile("ERROR", req.method, req.originalUrl, permissionDeleteMsg);
-      return res.status(401).send(permissionDeleteMsg);
+      logToFile("ERROR", req.method, req.originalUrl, getPermissionsMsg("edit this card"));
+      return res.status(401).send(getPermissionsMsg("edit this card"));
     }
     const { error } = validateCard(req.body);
     if (error) {
@@ -145,14 +139,14 @@ router.put("/:id", auth, async (req, res) => {
       new: true,
     });
     if (!updatedCard) {
-      logToFile("ERROR", req.method, req.originalUrl, cardNotFoundMsg);
-      return res.status(404).json({ error: cardNotFoundMsg });
+      logToFile("ERROR", req.method, req.originalUrl, );
+      return res.status(404).json({ error: foundCardError });
     }
     const result = await updatedCard.save();
     return res.status(201).json(result);
   } catch (error) {
-    logToFile("ERROR", req.method, req.originalUrl, cardNotFoundMsg);
-    return res.status(400).json({ error: cardNotFoundMsg });
+    logToFile("ERROR", req.method, req.originalUrl, foundCardError);
+    return res.status(400).json({ error: foundCardError });
   }
 });
 
