@@ -23,11 +23,10 @@ router.get("/", auth, checkIsAdmin, async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log("file: users.js:26 ~ router.post ~ req:", req.method)
   try {
     const { error } = validateUsers(req.body);
     if (error) {
-      logToFile("ERROR", `Method: ${req.method} URL: ${req.originalUrl},The Error: The biz number is exist please try another number`);
+      logToFile("ERROR", `Method: ${req.method} URL: ${req.originalUrl}, Description:${error.details[0].message}`);
       return res.status(400).json({ error: error.details[0].message });
     }
     
@@ -46,7 +45,7 @@ router.post("/", async (req, res) => {
     const result = await newUser.save();
     res.status(201).json(result);
   } catch (error) {
-    logToFile("ERROR", `Method: ${req.method} URL: ${req.originalUrl},The Error: The biz number is exist please try another number`);
+    logToFile("ERROR", `Method: ${req.method} URL: ${req.originalUrl}, Description: ${error.message}`);
     res.status(400).json({ error: error.message });
   }
 });
@@ -54,6 +53,7 @@ router.post("/", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
+    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: ${error.details[0].message}`);
     res.status(400).json(error.details[0].message);
     return;
   }
@@ -64,9 +64,13 @@ router.post("/login", async (req, res) => {
       user?.wrongAttempts[user?.wrongAttempts.length - 1]
     ) > BLOCK_TIME
       ? unBlockTheuser(user)
-      : res.status(400).send("The user is block to 24 please try log in later");
+      :
+        logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: The user is block to 24 please try log in later`);
+        res.status(400).send("The user is block to 24 please try log in later");
+      
   }
   if (!user) {
+    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: Invalid email or password`);
     res.status(400).send("Invalid email or password");
     return;
   }
