@@ -3,10 +3,10 @@ const router = express.Router();
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
-const { checkIfUserBlock } = require("../blockUserUtil/checkIfUserBlock");
-const { diff_hours } = require("../blockUserUtil/diff_hours");
-const { unBlockTheuser } = require("../blockUserUtil/unBlockTheUser");
-const { incWrongAttempts } = require("../blockUserUtil/incWrongAttempts");
+const { checkIfUserBlock } = require("../utility/blockUser/checkIfUserBlock");
+const { diff_hours } = require("../utility/blockUser/diff_hours");
+const { unBlockTheuser } = require("../utility/blockUser/unBlockTheUser");
+const { incWrongAttempts } = require("../utility/blockUser/incWrongAttempts");
 
 const BLOCK_TIME = 24;
 

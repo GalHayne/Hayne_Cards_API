@@ -2,7 +2,7 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 const { validateCard, Card, generateBizNumber } = require("../models/card");
 const { isBiz } = require("../middleware/permissions");
-const { logToFile } = require("../logFileUtil/logToFile");
+const {logToFile} = require("../utility/logFiles/logToFile")
 
 router.get("/", async (req, res) => {
   const ErrorMSg = "get cards request fail";

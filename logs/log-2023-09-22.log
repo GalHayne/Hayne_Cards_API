@@ -1,0 +1,1 @@
+2023-09-22T20:47:51.527Z [ERROR] - Method: POST, URL: /users, Description: E11000 duplicate key error collection: Hayne's_Cards_API.users index: email_1 dup key: { email: "yossi@gmail.com" }

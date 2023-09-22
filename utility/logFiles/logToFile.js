@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const logDirectory = 'logFileUtil/logs';
+const logDirectory = './logs';
 let logFileName = `log-${getCurrentDate()}.log`;
 let logFilePath = path.join(logDirectory, logFileName);
 
@@ -14,7 +14,8 @@ function getCurrentDate() {
 }
 
 function logToFile(level, method,url,description) {
-
+  console.log('im here');
+  
   const timestamp = new Date().toISOString();
   const logEntry = `${timestamp} [${level}] - Method: ${method}, URL: ${url}, Description: ${description}\n`;
 

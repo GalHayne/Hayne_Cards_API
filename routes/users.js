@@ -3,16 +3,18 @@ const { User, validateUsers, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const auth = require("../middleware/auth");
+const {logToFile} = require("../utility/logFiles/logToFile")
+
 const {
   checkIsAdmin,
   currentUser,
   onlyCurrUser,
 } = require("../middleware/permissions");
-const { checkIfUserBlock } = require("../blockUserUtil/checkIfUserBlock");
-const { diff_hours } = require("../blockUserUtil/diff_hours");
-const { unBlockTheuser } = require("../blockUserUtil/unBlockTheUser");
-const { incWrongAttempts } = require("../blockUserUtil/incWrongAttempts");
-const { logToFile } = require("../logFileUtil/logToFile");
+const { checkIfUserBlock } = require("../utility/blockUser/checkIfUserBlock")
+const { diff_hours } = require("../utility/blockUser/diff_hours");
+const { unBlockTheuser } = require("../utility/blockUser/unBlockTheUser");
+const { incWrongAttempts } = require("../utility/blockUser/incWrongAttempts");
+
 
 const BLOCK_TIME = 24;
 

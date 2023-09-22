@@ -1,4 +1,4 @@
-const { logToFile } = require("../logFileUtil/logToFile");
+const {logToFile} = require("../utility/logFiles/logToFile")
 
 const permissionsMsgError = "You dont have permissions";
 const createCardMsgError = "You dont have access to create a card";
