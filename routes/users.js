@@ -3,7 +3,6 @@ const { User, validateUsers, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 const auth = require("../middleware/auth");
-const { Card } = require("../models/card");
 const {
   checkIsAdmin,
   currentUser,
@@ -17,69 +16,68 @@ const { logToFile } = require("../logFileUtil/logToFile");
 
 const BLOCK_TIME = 24;
 
-router.get("/", auth, checkIsAdmin, async (req, res) => {
-  const users = await User.find({});
-  res.send(users);
-});
-
 router.post("/", async (req, res) => {
   try {
     const { error } = validateUsers(req.body);
     if (error) {
-      logToFile("ERROR", `Method: ${req.method} URL: ${req.originalUrl}, Description:${error.details[0].message}`);
+      logToFile("ERROR", req.method, req.originalUrl, error.details[0].message);
       return res.status(400).json({ error: error.details[0].message });
     }
-    
+
     if (req?.body?.bizNumber) {
       let user = await User.findOne({ bizNumber: req?.body?.bizNumber });
+      const errMsg = "The biz number is exist please try another number";
       if (user) {
-        logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: The biz number is exist please try another number`);
-        return res
-        .status(500)
-        .json({ error: "The biz number is exist please try another number" });
+        logToFile("ERROR", req.method, req.originalUrl, errMsg);
+        return res.status(500).json({ error: errMsg });
       }
     }
-    
+
     const newUser = new User(req.body);
     newUser.password = await bcrypt.hash(newUser.password, 12);
     const result = await newUser.save();
-    res.status(201).json(result);
+    return res.status(201).json(result);
   } catch (error) {
-    logToFile("ERROR", `Method: ${req.method} URL: ${req.originalUrl}, Description: ${error.message}`);
-    res.status(400).json({ error: error.message });
+    logToFile("ERROR", req.method, req.originalUrl, error.message);
+    return res.status(400).json({ error: error.message });
   }
 });
 
 router.post("/login", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
-    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: ${error.details[0].message}`);
+    logToFile("ERROR", req.method, req.originalUrl, error.details[0].message);
     res.status(400).json(error.details[0].message);
     return;
   }
   const user = await User.findOne({ email: req.body.email });
+  const blockMsg = "The user is block to 24 please try log in later";
+  const invalidUserMsg = "Invalid email or password";
   if (checkIfUserBlock(user)) {
-    diff_hours(new Date(),user?.wrongAttempts[user?.wrongAttempts.length - 1]) > BLOCK_TIME
-    ? 
-    unBlockTheuser(user)
-    :
-    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: The user is block to 24 please try log in later`);
-    return res.status(400).send("The user is block to 24 please try log in later");
-      
+    diff_hours(
+      new Date(),
+      user?.wrongAttempts[user?.wrongAttempts.length - 1]
+    ) > BLOCK_TIME
+      ? unBlockTheuser(user)
+      : logToFile("ERROR", req.method, req.originalUrl, blockMsg);
+    return res.status(400).send(blockMsg);
   }
   if (!user) {
-    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: Invalid email or password`);
-    res.status(400).send("Invalid email or password");
-    return;
+    logToFile("ERROR", req.method, req.originalUrl, invalidUserMsg);
+    return res.status(400).send(invalidUserMsg);
   }
 
-  const isPasswordValid = await bcrypt.compare(req.body.password,user.password);
+  const isPasswordValid = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
   if (!isPasswordValid) {
-    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: Invalid email or password`);
     if (incWrongAttempts(user)) {
-      return res.status(400).send("The user is block to 24 please try log in later");
+      logToFile("ERROR", req.method, req.originalUrl, blockMsg);
+      return res.status(400).send(blockMsg);
     } else {
-      return res.status(400).send("Invalid email or password");
+      logToFile("ERROR", req.method, req.originalUrl, invalidUserMsg);
+      return res.status(400).send(invalidUserMsg);
     }
   }
   user.wrongAttempts = [];
@@ -88,72 +86,47 @@ router.post("/login", async (req, res) => {
   res.send({ token });
 });
 
-const getCards = async (cardsArray) => {
-  const cards = await Card.find({ bizNumber: { $in: cardsArray } });
-  return cards;
-};
-
-router.get("/cards", auth, async (req, res) => {
-  if (!req.query.numbers) res.status(400).send("Missing numbers data");
-
-  let data = {};
-  data.cards = req.query.numbers.split(",");
-
-  const cards = await getCards(data.cards);
-  res.send(cards);
-});
-
-router.patch("/cards", auth, async (req, res) => {
-  const { error } = validateCards(req.body);
-  if (error) res.status(400).send(error.details[0].message);
-
-  const cards = await getCards(req.body.cards);
-  if (cards.length != req.body.cards.length)
-    return res.status(400).send("Card numbers don't match");
-
-  let user = await User.findById(req.user._id);
-  user.cards = req.body.cards;
-  user = await user.save();
-  res.send(user);
+router.get("/", auth, checkIsAdmin, async (req, res) => {
+  const users = await User.find({});
+  res.send(users);
 });
 
 router.get("/:id", auth, currentUser, async (req, res) => {
   try {
-    const user = await User.find({ _id: req.params.id });
-    if (user) {
-      res.status(201).json(user);
-    } else {
-      res.status(404).send("No such user exists in the system");
-    }
+    const user = await User.findOne({ _id: req.params.id });
+    return res.status(201).json(user);
   } catch (error) {
-    return res.status(400).json({ error: error.details[0].message });
+    const userErrorMsg = "No such user exists in the system";
+    logToFile("ERROR", req.method, req.originalUrl, userErrorMsg);
+    return res.status(404).send(userErrorMsg);
   }
 });
 
 router.put("/:id", auth, onlyCurrUser, async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user && user?.id !== req?.params?.id) {
-    return res
-      .status(500)
-      .json({ error: "The email is exist please try another email" });
+    const dupMailMsg = "The email is exist please try another email";
+    logToFile("ERROR", req.method, req.originalUrl, dupMailMsg);
+    return res.status(500).json({ error: dupMailMsg });
   }
   const { error } = validateUsers(req.body);
   if (error) {
+    logToFile("ERROR", req.method, req.originalUrl, error.details[0].message);
     return res.status(400).json({ error: error.details[0].message });
   }
 
   if (req?.body?.bizNumber) {
     if (!req?.user?.isAdmin) {
-      return res
-        .status(500)
-        .json({ error: "Only admin can change biz number" });
+      const changeBizMsg = "Only admin can change biz number";
+      logToFile("ERROR", req.method, req.originalUrl, changeBizMsg);
+      return res.status(500).json({ error: changeBizMsg });
     }
 
     let user = await User.findOne({ bizNumber: req.body.bizNumber });
     if (user && user?.id !== req?.params?.id) {
-      return res
-        .status(500)
-        .json({ error: "The biz number is exist please try another number" });
+      const bizExistMsg = "The biz number is exist please try another number";
+      logToFile("ERROR", req.method, req.originalUrl, bizExistMsg);
+      return res.status(500).json({ error: bizExistMsg });
     }
   }
 
@@ -161,7 +134,9 @@ router.put("/:id", auth, onlyCurrUser, async (req, res) => {
     new: true,
   });
   if (!updatedUser) {
-    return res.status(404).json({ error: "User not found" });
+    const noUserMsg = "User not found";
+    logToFile("ERROR", req.method, req.originalUrl, noUserMsg);
+    return res.status(404).json({ error: noUserMsg });
   }
   updatedUser.password = await bcrypt.hash(updatedUser.password, 12);
   const result = await updatedUser.save();
@@ -171,21 +146,20 @@ router.put("/:id", auth, onlyCurrUser, async (req, res) => {
 router.patch("/:id", auth, onlyCurrUser, async (req, res) => {
   let user = await User.findOne({ _id: req.params.id });
 
-  if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
-
   user.biz = !user.biz;
-
   user.save();
-
-  res.send(user);
+  return res.status(201).send(user);
 });
 
 router.delete("/:id", auth, currentUser, async (req, res) => {
-  const user = await User.findOneAndRemove({ _id: req.params.id });
-
-  if (!user) return res.status(404).send("No such user exists in the system");
-  res.status(201).send("The User deleted successfully");
+  try {
+    await User.findOneAndRemove({ _id: req.params.id });
+    return res.status(201).send("The User deleted successfully");
+  } catch (error) {
+    const userExistMsg = "No such user ID exists in the system";
+      logToFile("ERROR", req.method, req.originalUrl, userExistMsg);
+      return res.status(404).send(userExistMsg);
+  }
 });
 
 module.exports = router;

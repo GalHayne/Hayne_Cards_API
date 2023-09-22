@@ -1,16 +1,69 @@
-2023-09-22T00:31:01.118Z [ERROR] - Method: POST URL: /users,The Error: The biz number is exist please try another number
-2023-09-22T08:19:19.164Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:19:42.249Z [ERROR] - Method: POST URL: /users, Description:"password" is required
-2023-09-22T08:23:09.575Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password"
-2023-09-22T08:23:39.115Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
-2023-09-22T08:24:15.178Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
-2023-09-22T08:24:16.445Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
-2023-09-22T08:24:17.646Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
-2023-09-22T08:24:22.477Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:24:43.300Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:26:18.543Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:28:09.227Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:28:31.224Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:29:06.639Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:29:07.376Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
-2023-09-22T08:29:14.770Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:29:14.069Z [ERROR] - Method: POST, URL: /users, DescriptionL "phone" is required
+2023-09-22T10:30:27.958Z [ERROR] - Method: POST, URL: /users, DescriptionL "email" is required
+2023-09-22T10:30:39.727Z [ERROR] - Method: POST, URL: /users, DescriptionL "password" is required
+2023-09-22T10:31:11.445Z [ERROR] - Method: POST, URL: /users, Description: "password" is required
+2023-09-22T10:36:45.931Z [ERROR] - Method: POST, URL: /users, Description: E11000 duplicate key error collection: Hayne's_Cards_API.users index: email_1 dup key: { email: "gal@gmail.com" }
+2023-09-22T10:39:10.125Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:21.333Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:22.028Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:22.635Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:23.166Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:23.677Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:35.518Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:39.506Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:40.350Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:39:47.214Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:39:50.791Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:40:11.783Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:48:02.328Z [ERROR] - Method: GET, URL: /users, Description: You dont have permissions!!!
+2023-09-22T10:48:35.779Z [ERROR] - Method: GET, URL: /users, Description: You dont have permissions
+2023-09-22T10:49:31.979Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:49:32.567Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:49:33.091Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:49:34.337Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:51:28.601Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:51:28.602Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:51:32.996Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:51:32.997Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:51:33.899Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:51:33.899Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T10:51:45.774Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:51:52.188Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:51:52.508Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T10:51:52.854Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T11:04:10.418Z [ERROR] - Method: GET, URL: /users, Description: You dont have permissions
+2023-09-22T11:04:21.753Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T11:04:49.543Z [ERROR] - Method: POST, URL: /users, Description: E11000 duplicate key error collection: Hayne's_Cards_API.users index: email_1 dup key: { email: "gal2@gmail.com" }
+2023-09-22T11:17:17.861Z [ERROR] - Method: GET, URL: /users/6571a9906c92f024a5ba2d, Description: No such user exists in the system
+2023-09-22T11:17:53.776Z [ERROR] - Method: GET, URL: /users/hkjhjk, Description: No such user exists in the system
+2023-09-22T11:18:55.592Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T11:18:55.593Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T11:20:52.694Z [ERROR] - Method: GET, URL: /users/hkjhjk, Description: You dont have permissions
+2023-09-22T11:21:10.676Z [ERROR] - Method: GET, URL: /users, Description: You dont have permissions
+2023-09-22T11:21:40.553Z [ERROR] - Method: GET, URL: /users/650d78145a726dda83ab86, Description: You dont have permissions
+2023-09-22T11:22:38.758Z [ERROR] - Method: PUT, URL: /users/650ccfb012bb595b7edd07c6, Description: You dont have permissions
+2023-09-22T11:22:43.716Z [ERROR] - Method: GET, URL: /users/650d78145a726dda83ab86, Description: No such user exists in the system
+2023-09-22T11:23:33.454Z [ERROR] - Method: GET, URL: /users/650d78145a726dda83ab86, Description: No such user exists in the system
+2023-09-22T11:24:38.108Z [ERROR] - Method: PUT, URL: /users/650ccfb012bb595b7edd07c6, Description: You dont have permissions
+2023-09-22T11:25:23.435Z [ERROR] - Method: PUT, URL: /users/650ccfb012bb595b7edd07c6, Description: You dont have permissions
+2023-09-22T11:28:50.024Z [ERROR] - Method: PUT, URL: /users/650d6e6b22b5663533ffac32, Description: The email is exist please try another email
+2023-09-22T11:29:24.073Z [ERROR] - Method: PUT, URL: /users/650d6e6b22b5663533ffac32, Description: The email is exist please try another email
+2023-09-22T11:29:28.088Z [ERROR] - Method: PUT, URL: /users/650d6e6b22b5663533ffac32, Description: "phone" with value "123456465" fails to match the required pattern: /^0[2-9]\d{7,8}$/
+2023-09-22T11:30:24.336Z [ERROR] - Method: PUT, URL: /users/650d6e6b22b5663533ffac32, Description: "test" is not allowed
+2023-09-22T11:31:10.955Z [ERROR] - Method: POST, URL: /users, Description: The biz number is exist please try another number
+2023-09-22T11:31:18.332Z [ERROR] - Method: POST, URL: /users, Description: E11000 duplicate key error collection: Hayne's_Cards_API.users index: email_1 dup key: { email: "gal3@gmail.com" }
+2023-09-22T11:31:40.788Z [ERROR] - Method: PUT, URL: /users/650d6e6b22b5663533ffac32, Description: The biz number is exist please try another number
+2023-09-22T11:33:54.904Z [ERROR] - Method: PATCH, URL: /users/650d6cfd3e6663842df5dcdc, Description: You dont have permissions
+2023-09-22T11:33:57.781Z [ERROR] - Method: PATCH, URL: /users/650d6cfd3e6663842df5dcdc, Description: You dont have permissions
+2023-09-22T11:34:00.788Z [ERROR] - Method: PATCH, URL: /users/650d6cfd3e6663842dcdc, Description: You dont have permissions
+2023-09-22T11:37:57.624Z [ERROR] - Method: DELETE, URL: /users/650d7b0a6e4a1af77408, Description: You can't delete this user
+2023-09-22T11:38:09.794Z [ERROR] - Method: DELETE, URL: /users/650d7b0a6e4a1af77408, Description: You can't delete this user
+2023-09-22T11:38:32.531Z [ERROR] - Method: DELETE, URL: /users/650d7b0a6e4a1af77408, Description: No such user exists in the system
+2023-09-22T11:38:56.481Z [ERROR] - Method: DELETE, URL: /users/650d7b0a6e4a1af77408, Description: No such user ID exists in the system
+2023-09-22T11:39:33.094Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T11:39:33.095Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T11:39:37.024Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T11:39:37.024Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T11:40:04.837Z [ERROR] - Method: GET, URL: /users/650d6e6b22b5663533ffac32, Description: You dont have permissions
+2023-09-22T11:41:18.738Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T11:41:36.398Z [ERROR] - Method: DELETE, URL: /users/650d71a9906c92f024a5ba2d, Description: You dont have permissions

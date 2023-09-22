@@ -13,10 +13,10 @@ function getCurrentDate() {
   return `${year}-${month}-${day}`;
 }
 
-function logToFile(level, message) {
+function logToFile(level, method,url,description) {
 
   const timestamp = new Date().toISOString();
-  const logEntry = `${timestamp} [${level}] - ${message}\n`;
+  const logEntry = `${timestamp} [${level}] - Method: ${method}, URL: ${url}, Description: ${description}\n`;
 
   fs.appendFile(logFilePath, logEntry, (err) => {
     if (err) {

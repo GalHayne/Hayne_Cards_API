@@ -1,6 +1,7 @@
 @local=http://localhost:3000
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBjZDc3OWM5MGYxM2QwZTFmZTNkMjEiLCJiaXoiOmZhbHNlLCJpc0FkbWluIjp0cnVlLCJlbWFpbCI6ImdhbGhheW5lMkBnbWFpbC5jb20iLCJpYXQiOjE2OTUzNDE2ODd9.YbL9-qXpAsqeJh6KxqALd-s-TfWh_DM326-6jly0Oq4
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBkNzgxNDVhNzI2ZGQxOGE4M2FiODYiLCJiaXoiOmZhbHNlLCJpc0FkbWluIjpmYWxzZSwiZW1haWwiOiJnYWwzQGdtYWlsLmNvbSIsImlhdCI6MTY5NTM4Mjc5M30.9YbxJ66NpfKQjUILyYd4d391D-jZSbyEVI4EjrVm7BA
 
+////////////////////////////User API//////////////////////////////////////////////
 ### Create New User
 POST {{local}}/users
 Content-Type: application/json
@@ -8,20 +9,22 @@ Content-Type: application/json
 {
     "name":{
       "first": "gal",
-      "last" : "hayne"
+      "last" : "tomer"
     },
-    "email": "galhayne5@gmail.com",
-    "phone": "0545875037"
+    "phone": "052486485",
+    "email": "gal33@gmail.com",
+    "password": "!QAZ2wsx",
+    "biz": "true",
+    "isAdmin": "true",
+    "bizNumber": "18"
 }
-
-////////////////////////////User API//////////////////////////////////////////////
 
 ### Authenticate (login)
 POST {{local}}/users/login
 Content-Type: application/json
 
 {
-  "email": "galhayne2@gmail.com",
+  "email": "gal3@gmail.com",
   "password": "!QAZ2ws"
 }
 
@@ -30,30 +33,33 @@ GET {{local}}/users
 x-auth-token: {{token}}
 
 ### get user by id
-GET {{local}}/users/650ccb7d12bb595b7edd07aa
+GET {{local}}/users/650d78145a726dd18a83ab86
 x-auth-token: {{token}}
 
+
 ### Update user by id
-PUT {{local}}/users/650ccfb012bb595b7edd07c6
+PUT {{local}}/users/650d6e6b22b5663533ffac32
 x-auth-token: {{token}}
 Content-Type: application/json
 
 {
-  "phone": "0502161856",
-  "email": "galhayne2@gmail.com",
-  "password": "!QAZ2wsx"
+  "phone": "0504484265",
+  "email": "yossi@gmail.com",
+  "password": "!QAZ2wsx",
+  "bizNumber": "19"
 }
 
 ### Toggle Biz user by id
-PATCH  {{local}}/users/650b609628939c731f206d45
+PATCH  {{local}}/users/650d6cfd3e6663842dcdc
 x-auth-token: {{token}}
 
 ### Delete user by id
-DELETE {{local}}/users/650ccfb012bb595b7edd07c6
+DELETE {{local}}/users/650d71a9906c92f024a5ba2d
 x-auth-token: {{token}}
-
-
 ////////////////////////////User API//////////////////////////////////////////////
+
+
+////////////////////////////Card API//////////////////////////////////////////////
 ### Get all Cards
 GET {{local}}/cards
 
@@ -154,5 +160,3 @@ x-auth-token: {{token}}
 
 
 
-
-////////////////////////////Card API//////////////////////////////////////////////
