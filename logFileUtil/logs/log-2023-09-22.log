@@ -1,1 +1,16 @@
 2023-09-22T00:31:01.118Z [ERROR] - Method: POST URL: /users,The Error: The biz number is exist please try another number
+2023-09-22T08:19:19.164Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:19:42.249Z [ERROR] - Method: POST URL: /users, Description:"password" is required
+2023-09-22T08:23:09.575Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password"
+2023-09-22T08:23:39.115Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T08:24:15.178Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T08:24:16.445Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T08:24:17.646Z [ERROR] - Method: POST, URL: /users/login, Description: Invalid email or password
+2023-09-22T08:24:22.477Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:24:43.300Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:26:18.543Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:28:09.227Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:28:31.224Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:29:06.639Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:29:07.376Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later
+2023-09-22T08:29:14.770Z [ERROR] - Method: POST, URL: /users/login, Description: The user is block to 24 please try log in later

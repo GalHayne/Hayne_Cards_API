@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
   "email": "galhayne2@gmail.com",
-  "password": "!QAZ2wsx"
+  "password": "!QAZ2ws"
 }
 
 ### get all users

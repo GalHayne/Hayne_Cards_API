@@ -59,14 +59,12 @@ router.post("/login", async (req, res) => {
   }
   const user = await User.findOne({ email: req.body.email });
   if (checkIfUserBlock(user)) {
-    diff_hours(
-      new Date(),
-      user?.wrongAttempts[user?.wrongAttempts.length - 1]
-    ) > BLOCK_TIME
-      ? unBlockTheuser(user)
-      :
-        logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: The user is block to 24 please try log in later`);
-        res.status(400).send("The user is block to 24 please try log in later");
+    diff_hours(new Date(),user?.wrongAttempts[user?.wrongAttempts.length - 1]) > BLOCK_TIME
+    ? 
+    unBlockTheuser(user)
+    :
+    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: The user is block to 24 please try log in later`);
+    return res.status(400).send("The user is block to 24 please try log in later");
       
   }
   if (!user) {
@@ -75,17 +73,14 @@ router.post("/login", async (req, res) => {
     return;
   }
 
-  const isPasswordValid = await bcrypt.compare(
-    req.body.password,
-    user.password
-  );
+  const isPasswordValid = await bcrypt.compare(req.body.password,user.password);
   if (!isPasswordValid) {
+    logToFile("ERROR", `Method: ${req.method}, URL: ${req.originalUrl}, Description: Invalid email or password`);
     if (incWrongAttempts(user)) {
-      res.status(400).send("The user is block to 24 please try log in later");
+      return res.status(400).send("The user is block to 24 please try log in later");
     } else {
-      res.status(400).send("Invalid email or password");
+      return res.status(400).send("Invalid email or password");
     }
-    return;
   }
   user.wrongAttempts = [];
   user.save();
@@ -114,7 +109,7 @@ router.patch("/cards", auth, async (req, res) => {
 
   const cards = await getCards(req.body.cards);
   if (cards.length != req.body.cards.length)
-    res.status(400).send("Card numbers don't match");
+    return res.status(400).send("Card numbers don't match");
 
   let user = await User.findById(req.user._id);
   user.cards = req.body.cards;
