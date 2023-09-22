@@ -1,2 +1,3 @@
 node_modules
 logFileUtil/logs/*.log
+*.http
