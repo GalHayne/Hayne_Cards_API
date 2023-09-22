@@ -87,11 +87,11 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/", auth, checkIsAdmin, async (req, res) => {
-  try{
+  try {
     const users = await User.find({});
     return res.send(users);
-  }catch(error){
-    logToFile("ERROR",req.method,req.originalUrl,error)
+  } catch (error) {
+    logToFile("ERROR", req.method, req.originalUrl, error);
     res.status(401).send(error);
   }
 });
@@ -108,7 +108,7 @@ router.get("/:id", auth, currentUser, async (req, res) => {
 });
 
 router.put("/:id", auth, onlyCurrUser, async (req, res) => {
-  try{
+  try {
     let user = await User.findOne({ email: req.body.email });
     if (user && user?.id !== req?.params?.id) {
       const dupMailMsg = "The email is exist please try another email";
@@ -120,14 +120,14 @@ router.put("/:id", auth, onlyCurrUser, async (req, res) => {
       logToFile("ERROR", req.method, req.originalUrl, error.details[0].message);
       return res.status(400).json({ error: error.details[0].message });
     }
-    
+
     if (req?.body?.bizNumber) {
       if (!req?.user?.isAdmin) {
         const changeBizMsg = "Only admin can change biz number";
         logToFile("ERROR", req.method, req.originalUrl, changeBizMsg);
         return res.status(500).json({ error: changeBizMsg });
       }
-      
+
       let user = await User.findOne({ bizNumber: req.body.bizNumber });
       if (user && user?.id !== req?.params?.id) {
         const bizExistMsg = "The biz number is exist please try another number";
@@ -147,25 +147,25 @@ router.put("/:id", auth, onlyCurrUser, async (req, res) => {
     updatedUser.password = await bcrypt.hash(updatedUser.password, 12);
     const result = await updatedUser.save();
     return res.status(201).json(result);
-  }catch(err){
+  } catch (err) {
     const ErrorMSg = "Update user request fail";
     logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
   }
-  });
-  
-  router.patch("/:id", auth, onlyCurrUser, async (req, res) => {
-    const ErrorMSg = "Toogle biz this user request fail";
-    const foundUserMsg = "No such user exists in the system";
-    try{
-      let user = await User.findOne({ _id: req.params.id });
-      if (!user){
-        logToFile("ERROR", req.method, req.originalUrl, foundUserMsg);
-        return res.status(404).send(foundUserMsg);
-      }
+});
+
+router.patch("/:id", auth, onlyCurrUser, async (req, res) => {
+  const ErrorMSg = "Toogle biz this user request fail";
+  const foundUserMsg = "No such user exists in the system";
+  try {
+    let user = await User.findOne({ _id: req.params.id });
+    if (!user) {
+      logToFile("ERROR", req.method, req.originalUrl, foundUserMsg);
+      return res.status(404).send(foundUserMsg);
+    }
     user.biz = !user.biz;
     user.save();
     return res.status(201).send(user);
-  }catch(err){
+  } catch (err) {
     logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
     return res.status(404).send(ErrorMSg);
   }
@@ -176,14 +176,14 @@ router.delete("/:id", auth, currentUser, async (req, res) => {
   const foundUserMsg = "No such user exists in the system";
   try {
     const user = await User.findOneAndRemove({ _id: req.params.id });
-    if (!user){
+    if (!user) {
       logToFile("ERROR", req.method, req.originalUrl, foundUserMsg);
       return res.status(404).send(foundUserMsg);
     }
     return res.status(201).send("The User deleted successfully");
   } catch (error) {
-      logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
-      return res.status(404).send(ErrorMSg);
+    logToFile("ERROR", req.method, req.originalUrl, ErrorMSg);
+    return res.status(404).send(ErrorMSg);
   }
 });
 
