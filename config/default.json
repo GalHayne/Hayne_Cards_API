@@ -1,0 +1,11 @@
+{
+  "mongoDB": {
+    "MONGO_URL": "mongodb://127.0.0.1/Hayne's_Cards_API"
+  },
+  "server": {
+    "PORT": 3000
+  },
+  "auth": {
+    "JWT_SECRET": ""
+  }
+}

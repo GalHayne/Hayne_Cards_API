@@ -1,0 +1,158 @@
+@local=http://localhost:3000
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBjZDc3OWM5MGYxM2QwZTFmZTNkMjEiLCJiaXoiOmZhbHNlLCJpc0FkbWluIjp0cnVlLCJlbWFpbCI6ImdhbGhheW5lMkBnbWFpbC5jb20iLCJpYXQiOjE2OTUzNDE2ODd9.YbL9-qXpAsqeJh6KxqALd-s-TfWh_DM326-6jly0Oq4
+
+### Create New User
+POST {{local}}/users
+Content-Type: application/json
+
+{
+    "name":{
+      "first": "gal",
+      "last" : "hayne"
+    },
+    "email": "galhayne5@gmail.com",
+    "phone": "0545875037"
+}
+
+////////////////////////////User API//////////////////////////////////////////////
+
+### Authenticate (login)
+POST {{local}}/users/login
+Content-Type: application/json
+
+{
+  "email": "galhayne2@gmail.com",
+  "password": "!QAZ2wsx"
+}
+
+### get all users
+GET {{local}}/users
+x-auth-token: {{token}}
+
+### get user by id
+GET {{local}}/users/650ccb7d12bb595b7edd07aa
+x-auth-token: {{token}}
+
+### Update user by id
+PUT {{local}}/users/650ccfb012bb595b7edd07c6
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{
+  "phone": "0502161856",
+  "email": "galhayne2@gmail.com",
+  "password": "!QAZ2wsx"
+}
+
+### Toggle Biz user by id
+PATCH  {{local}}/users/650b609628939c731f206d45
+x-auth-token: {{token}}
+
+### Delete user by id
+DELETE {{local}}/users/650ccfb012bb595b7edd07c6
+x-auth-token: {{token}}
+
+
+////////////////////////////User API//////////////////////////////////////////////
+### Get all Cards
+GET {{local}}/cards
+
+### Get my Cards
+GET {{local}}/cards/my-cards
+x-auth-token: {{token}}
+
+{
+  "user_id": "650c290a04cffe923649844f"
+}
+
+### Get card by ID
+GET {{local}}/cards/650c24169b2fa95ffd267216
+
+
+### Create New Card
+POST {{local}}/cards
+Content-Type: application/json
+x-auth-token: {{token}}
+
+{
+  "title": "tomer",
+  "subtitle": "hayne",
+  "description": "web deveoloper",
+  "phone": "0505875037",
+  "email": "hadar@gmail.com",
+  "address": {
+    "country": "IL",
+    "city": "Rehovot",
+    "street": "Max Shein",
+    "houseNumber": "23",
+    "zip": "5"
+  }
+}
+
+### Delete Card
+DELETE   {{local}}/cards/650c3a480bfcac7c1e7d3a70
+Content-Type: application/json
+x-auth-token: {{token}}
+
+### Like Card
+PATCH  {{local}}/cards/650c184d12c8c2859fbefe67
+Content-Type: application/json
+x-auth-token: {{token}}
+
+### Update Card
+PUT {{local}}/cards/650c4eb5fa4ea191acdd0fd1
+Content-Type: application/json
+x-auth-token: {{token}}
+
+{
+  "title": "gal",
+  "subtitle": "hayne",
+  "description": "full stack development",
+  "phone": "0505875037",
+  "email": "gal@gmail.com",
+  "address": {
+    "country": "IL",
+    "city": "Rehovot",
+    "street": "Max Shein",
+    "houseNumber": "23",
+    "zip": "5"
+  }
+}
+
+////////////////////////////Card API//////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////Card API//////////////////////////////////////////////
