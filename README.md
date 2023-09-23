@@ -263,28 +263,26 @@ title: {
 ```
 
 
-## Libraries
-"node.js"
-"express"
-"mongoose"
-"joi"
-"bcrypt"
-"dotenv"
-"config"
-"jsonwebtoken"
-"cors"
-"chalk"
-"ejs"
-"passport"
-"passport-google-oauth"
-"express-session"
-"morgan"
-"lodash"
-"on-finished"
-"fs"
-"path"
+### Libraries
+- "node.js"
+- "express"
+- "mongoose"
+- "joi"
+- "bcrypt"
+- "dotenv"
+- "config"
+- "jsonwebtoken"
+- "cors"
+- "chalk"
+ -"ejs"
+- "passport"
+- "morgan"
+- "lodash"
+- "on-finished"
+- "fs"
+- "path"
 
-##Features
+### Features
 1. Anyone can open a new user and start working.
 2. There is a user who is defined as an administrator and has special premissions.
 3. A user who enters a wrong password 3 times will be blocked to 24 hourse.
