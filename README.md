@@ -1,39 +1,25 @@
-## Shopping store
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 Server-side development for a web application that includes a management system that allows business users to post ads to the editor and delete them
 
 ### Built With
- [![Node][Node.js]][Node-url]  [![MongoDB][MongoDB]][MongoDB-url]  [![Express][Express.js]][Express-url]  [![Bcrypt][Bcrypt.js]][Bcrypt-url]  [![JWT][JWT]][JWT-url]  [![joi][joi]][joi-url] [![Morgan][Morgan]][Morgan-url]
- [![Mongoose][Mongoose.js]][Mongoose-url]  [![Chalk][Chalk]][Chalk-url]  [![Cors][Cors]][Cors-url]
-
-
+ [![Node][Node.js]][Node-url]  [![MongoDB][MongoDB]][MongoDB-url] 
 
 <!-- GETTING STARTED -->
 ### Installation
-
-_Chalk should only 4.1.2 version._
-
-1. Install NPM packages
-   ```sh
-   npm install
+1. Clone this project
+ ```sh
+   git clone https://github.com/selahben/BizCardsNodeJsServer.git
    ```
-2. Install Chalk version:
+2. Install NPM packages
    ```sh
-   npm i chalk@4.1.2 
+   npm i
    ```
 ### Starting
-
- _Run dev server:_
- 
 1.Run dev server
    ```sh
    npm run dev
    ```
-
-
-### More info 
 
 ## User end point
 | URL | METHOD | ACTION | Authorization|
@@ -51,15 +37,18 @@ _Chalk should only 4.1.2 version._
   name: {
     first: {
       type: String,
-      required: true,
       minlength: 2,
       maxlength: 255,
     },
-    middle: { type: String },
+    middle: {
+      type: String,
+      minlength: 0,
+      maxlength: 255,
+      default: "",
+    },
     last: {
       type: String,
-      required: true,
-      minlength: 6,
+      minlength: 2,
       maxlength: 255,
     },
     _id: {
@@ -69,33 +58,32 @@ _Chalk should only 4.1.2 version._
   },
   phone: {
     type: String,
-    required: true,
     minlength: 9,
     maxlength: 10,
   },
   email: {
     type: String,
-    required: true,
     minlength: 6,
     maxlength: 255,
     unique: true,
   },
   password: {
     type: String,
-    required: true,
     minlength: 6,
     maxlength: 1024,
   },
   image: {
     url: {
       type: String,
-      minlength: 11,
+      minlength: 0,
       maxlength: 1024,
+      default: "",
     },
     alt: {
       type: String,
-      minlength: 2,
+      minlength: 0,
       maxlength: 1024,
+      default: "",
     },
     _id: {
       type: mongoose.Types.ObjectId,
@@ -111,32 +99,31 @@ _Chalk should only 4.1.2 version._
     },
     country: {
       type: String,
-      required: true,
       minlength: 2,
       maxlength: 400,
     },
     city: {
       type: String,
-      required: true,
       minlength: 2,
       maxlength: 400,
     },
     street: {
       type: String,
-      required: true,
-      minlength: 2,
+      minlength: 0,
       maxlength: 400,
+      default: "",
     },
     houseNumber: {
       type: String,
-      required: true,
-      minlength: 1,
+      minlength: 0,
       maxlength: 8,
+      default: "",
     },
     zip: {
       type: String,
-      minlength: 1,
+      minlength: 0,
       maxlength: 14,
+      default: "",
     },
     _id: {
       type: mongoose.Types.ObjectId,
@@ -145,15 +132,22 @@ _Chalk should only 4.1.2 version._
   },
   isAdmin: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   biz: {
     type: Boolean,
-    required: true,
+    default: false,
+  },
+  bizNumber: {
+    type: String, // Change the data type to String
   },
   createdAt: { type: Date, default: Date.now },
+  blockedUser: {
+    type: Boolean,
+    default: false,
+  },
+  wrongAttempts: { type: Array, default: null },
   cards: Array,
-});
 ```
 ## Card end point
 | URL | METHOD | ACTION | Authorization|
@@ -201,9 +195,9 @@ title: {
   },
   web: {
     type: String,
-    required: true,
-    minlength: 6,
+    minlength: 0,
     maxlength: 255,
+    default: "",
   },
   image: {
     url: {
@@ -266,42 +260,34 @@ title: {
   },
   createdAt: { type: Date, default: Date.now },
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-});
 ```
 
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
-[Node.js]: https://img.shields.io/badge/node.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Node-url]: https://nodejs.org/
-[MongoDB]: https://img.shields.io/badge/mongoDB-20232A?style=for-the-badge&logo=mongoDB&logoColor=green
-[MongoDB-url]: https://www.mongodb.com/
-[Express.js]: https://img.shields.io/badge/Express.js-35495E?style=for-the-badge&logo=expressjs&logoColor=4FC08D
-[Express-url]: https://expressjs.com/
-[Bcrypt.js]: https://img.shields.io/badge/Bcrypt.js-DD0031?style=for-the-badge&logo=bcrypt&logoColor=white
-[Bcrypt-url]: https://yepcode.io/
-[JWT]: https://img.shields.io/badge/JWT-4A4A55?style=for-the-badge&logo=jwt&logoColor=FF3E00
-[JWT-url]: https://jwt.io/
-[joi]: https://img.shields.io/badge/joi-FF2D20?style=for-the-badge&logo=joil&logoColor=white
-[joi-url]:https://joi.dev/
-[Morgan]: https://img.shields.io/badge/Morgan-563D7C?style=for-the-badge&logo=morgan&logoColor=white
-[Morgan-url]:https://coralogix.com/
-[Mongoose.js]: https://img.shields.io/badge/Mongoose-0769AD?style=for-the-badge&logo=mongoose&logoColor=white
-[Mongoose-url]: https://mongoosejs.com/
-[Chalk]: https://img.shields.io/badge/Chalk-8A2BE2?style=for-the-badge&logo=chalk&logoColor=white
-[Chalk-url]: https://www.npmjs.com/package/chalk
-[Cors]: https://img.shields.io/badge/Cors-0769AD?style=for-the-badge&logo=cors&logoColor=white
-[Cors-url]: https://www.npmjs.com/package/cors
+## Libraries
+"node.js"
+"express"
+"mongoose"
+"joi"
+"bcrypt"
+"dotenv"
+"config"
+"jsonwebtoken"
+"cors"
+"chalk"
+"ejs"
+"passport"
+"passport-google-oauth"
+"express-session"
+"morgan"
+"lodash"
+"on-finished"
+"fs"
+"path"
+
+##Features
+1. Anyone can open a new user and start working.
+2. There is a user who is defined as an administrator and has special premissions.
+3. A user who enters a wrong password 3 times will be blocked to 24 hourse.
+4. There is a logs folder where all errors with status 400 and above are saved with the error description
+
+## ENJOY!!
