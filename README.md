@@ -25,12 +25,12 @@ Server-side development for a web application that includes a management system 
 | URL | METHOD | ACTION | Authorization|
 | --- | --- | --- | --- |
 | /user | POST | All | Registered user|
-| /useers/login | POST | All | Login |
-| /useers | GET | Admin | Get all users |
-| /useers/:id | GET | The Registered user or admin | Get user|
-| /useers/:id | PUT | The Registered user | Edit user|
-| /useers/:id | PATCH | The Registered user | Chsnge isBusiness status|
-| /useers/:id | DELETE | The Registered user or admin  | Delete user|
+| /users/login | POST | All | Login |
+| /users | GET | Admin | Get all users |
+| /users/:id | GET | The Registered user or admin | Get user|
+| /users/:id | PUT | The Registered user | Edit user|
+| /users/:id | PATCH | The Registered user | Chsnge isBusiness status|
+| /users/:id | DELETE | The Registered user or admin  | Delete user|
 
 ## User model
 ```
@@ -153,7 +153,7 @@ Server-side development for a web application that includes a management system 
 | URL | METHOD | ACTION | Authorization|
 | --- | --- | --- | --- |
 | /cards | GET | All | All cards|
-| /cards/my-cards | GET | The Registered use | Get user cards |
+| /cards/my-cards | GET | The Registered user | Get user cards |
 | /cards/:id | GET | All | Get card |
 | /cards| POST | Business user | Create new card|
 | /cards/:id | PUT | The user who created the card | Edit card|
